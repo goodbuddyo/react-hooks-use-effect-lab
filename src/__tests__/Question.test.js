@@ -1,16 +1,16 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import {render,screen} from "@testing-library/react";
+import {act} from "react-dom/test-utils";
 import Question from "../components/Question";
 
-const testQuestion = {
+const testQuestion={
   id: 1,
   prompt: "lorem testum",
-  answers: ["choice 1", "choice 2", "choice 3", "choice 4"],
+  answers: ["choice 1","choice 2","choice 3","choice 4"],
   correctIndex: 0,
 };
 
-const noop = () => {};
+const noop=() => {};
 
 beforeEach(() => {
   jest.useFakeTimers();
@@ -22,13 +22,13 @@ afterEach(() => {
 });
 
 // const onChange = jest.fn();
-test("creates an interval with setTimeout", () => {
-  jest.spyOn(global, 'setTimeout');
+test("creates an interval with setTimeout",() => {
+  jest.spyOn(global,'setTimeout');
   render(<Question question={testQuestion} onAnswered={noop} />);
   expect(setTimeout).toHaveBeenCalled();
 });
 
-test("decrements the timer by 1 every second", () => {
+test("decrements the timer by 1 every second",() => {
   render(<Question question={testQuestion} onAnswered={noop} />);
   expect(screen.queryByText(/10 seconds remaining/)).toBeInTheDocument();
   act(() => {
@@ -45,8 +45,8 @@ test("decrements the timer by 1 every second", () => {
   expect(screen.queryByText(/7 seconds remaining/)).toBeInTheDocument();
 });
 
-test("calls onAnswered after 10 seconds", () => {
-  const onAnswered = jest.fn();
+test("calls onAnswered after 10 seconds",() => {
+  const onAnswered=jest.fn();
   render(<Question question={testQuestion} onAnswered={onAnswered} />);
   act(() => {
     jest.advanceTimersByTime(11000);
@@ -54,9 +54,9 @@ test("calls onAnswered after 10 seconds", () => {
   expect(onAnswered).toHaveBeenCalledWith(false);
 });
 
-test("clears the timeout after unmount", () => {
-  jest.spyOn(global, 'clearTimeout');
-  const { unmount } = render(
+test("clears the timeout after unmount",() => {
+  jest.spyOn(global,'clearTimeout');
+  const {unmount}=render(
     <Question question={testQuestion} onAnswered={noop} />
   );
   unmount();
